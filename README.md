@@ -1,2 +1,2 @@
-## Multi-task learning of convex combinations of forecasting models
-Code to generate forecast combinations based on the paper ["Multi-task learning of convex combinations of forecasting models"](http://arxiv.org/abs/2310.20545).
+## Optimizing accuracy and diversity: a multi-task approach to forecast combinations
+Code to generate forecast combinations based on the paper ["Optimizing accuracy and diversity: a multi-task approach to forecast combinations"](http://arxiv.org/abs/2310.20545).
