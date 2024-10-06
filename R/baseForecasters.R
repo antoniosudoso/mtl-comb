@@ -18,6 +18,8 @@ M4_forec_methods <- function() {
 snaive_forec <- function(x,h) {
   model <- forecast::snaive(x, h=length(x))
   forecast::forecast(model, h=h)$mean
+  #frq <- stats::frequency(x) #maybe faster calculation
+  #utils::tail(x,frq)[((1:h -1) %% frq) + 1]
 }
 
 

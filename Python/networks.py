@@ -55,7 +55,7 @@ def build_baseline(ts_length, f_methods, f_horizon):
     return full_model, weights_model
 
 
-def build_network(ts_length, f_methods, f_horizon, lambda_hyper, mu_hyper=1.0):
+def build_network(ts_length, f_methods, f_horizon, lambda_hyper, mu_hyper):
     """
     :param ts_length: sequence length
     :param f_methods: number of forecasting methods
@@ -87,9 +87,10 @@ def build_network(ts_length, f_methods, f_horizon, lambda_hyper, mu_hyper=1.0):
     reg_model = tf.keras.Model(inputs=x_raw, outputs=[x_reg_feat, x_reg_out], name="regression_model")  # returns features and un-normalized weights from regression
     cls_model = tf.keras.Model(inputs=x_raw, outputs=[x_cls_feat, x_cls_out], name="classification_model")  # returns features and labels from classification
 
+    #opt = tf.keras.optimizers.legacy.SGD()
     opt = tf.keras.optimizers.legacy.Adam()
     full_model.compile(optimizer=opt,
-                       loss=overall_loss_wrapper(x_for, lambda_hyper, x_cls_true, x_cls_out, mu_hyper, x_reg_feat, x_cls_feat),
+                       loss=overall_loss_wrapper(x_for, mu_hyper, x_cls_true, x_cls_out, lambda_hyper, x_reg_feat, x_cls_feat),
                        metrics=[comb_loss_wrapper(x_for), cls_loss_wrapper(x_cls_true, x_cls_out), ort_loss_wrapper(x_reg_feat, x_cls_feat)])
 
     return full_model, weights_model, reg_model, cls_model

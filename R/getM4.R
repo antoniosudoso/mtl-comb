@@ -1,4 +1,3 @@
-
 library(M4comp2018)
 library(rlist)
 library(forecast)

@@ -1,4 +1,3 @@
-
 # Removes fields 'pt_ff', 'up_ff' and 'low_ff' from the M4 dataset
 # @param dataset: dataset of interest
 remove_ff_fields <- function(dataset){

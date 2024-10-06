@@ -9,9 +9,29 @@ import rpy2.robjects as robjects
 def get_data(base_path, series_type, period):
     readRDS = robjects.r['readRDS']
     if period == 'train':
-        df_series_rds = readRDS(base_path + 'val/train/' + 'series_' + series_type + '.rds')
+        df_series_rds = readRDS(base_path + '/R/M4/' + 'series_' + series_type + '.rds')
     elif period == 'test':
-        df_series_rds = readRDS(base_path + 'test/' + 'series_test_' + series_type + '.rds')
+        df_series_rds = readRDS(base_path + '/R/M4/' + 'series_test_' + series_type + '.rds')
+    else:
+        sys.exit('Invalid period: choose between "train" or "test" periods')
+    series_list = list(map(lambda df: {key: np.asarray(df.rx2(key)) for key in df.names}, df_series_rds))
+    ts_train = list(map(lambda x: x['ts_train'], series_list))
+    ts_test = list(map(lambda x: x['ts_test'], series_list))
+    mat_forecast = list(map(lambda x: x['mat_forecast'], series_list))
+    if period == 'train':
+        div_label = list(map(lambda x: x['div_label'], series_list))
+    elif period == 'test':
+        div_label = []
+    else:
+        sys.exit('Invalid period: choose between "train" or "test" periods')
+    return ts_train, ts_test, mat_forecast, div_label
+
+def get_data_LargeST(base_path, series_type, period):
+    readRDS = robjects.r['readRDS']
+    if period == 'train':
+        df_series_rds = readRDS(base_path + '/R/LargeST/' + 'series_' + series_type + '.rds')
+    elif period == 'test':
+        df_series_rds = readRDS(base_path + '/R/LargeST/' + 'series_test_' + series_type + '.rds')
     else:
         sys.exit('Invalid period: choose between "train" or "test" periods')
     series_list = list(map(lambda df: {key: np.asarray(df.rx2(key)) for key in df.names}, df_series_rds))

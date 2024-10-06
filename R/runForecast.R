@@ -1,4 +1,3 @@
-
 source("baseForecasters.R")
 library(forecast)
 

@@ -42,21 +42,22 @@ def ort_loss_wrapper(x_reg_feat, x_cls_feat):
 
     def ort_loss(y_true, y_pred):
         ort_mul = tf.linalg.matmul(x_reg_feat, x_cls_feat, transpose_a=False, transpose_b=True)
+        # ort = tf.math.square(tf.linalg.norm(ort_mul, ord='fro', axis=(0, 1)))
         ort = tf.reduce_mean(tf.math.square(ort_mul))
         return ort
 
     return ort_loss
 
 
-def overall_loss_wrapper(f_matrix, lambda_hyper, y_cls_true, y_cls_pred, mu_hyper, x_reg_feat, x_cls_feat):
+def overall_loss_wrapper(f_matrix, mu_hyper, y_cls_true, y_cls_pred, lambda_hyper, x_reg_feat, x_cls_feat):
     """
     :param f_matrix: tf.Tensor (n_samples, f_methods, f_horizon)
     :param x_cls_feat: tf.Tensor (n_samples, n_features)
     :param x_reg_feat: tf.Tensor (n_samples, n_features)
     :param y_cls_true: tf.Tensor (n_samples, f_methods)
     :param y_cls_pred: tf.Tensor (n_samples, f_methods)
-    :param lambda_hyper: penalty for orthogonality
     :param mu_hyper: penalty for classification
+    :param lambda_hyper: penalty for orthogonality
     """
     cls = cls_loss_wrapper(y_cls_true, y_cls_pred)
     ort = ort_loss_wrapper(x_reg_feat, x_cls_feat)

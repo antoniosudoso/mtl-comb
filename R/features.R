@@ -69,6 +69,7 @@ get_features_matrix <- function(df_errors) {
   for (i in 1:length(df_errors)) {
     if (i == 1)
       colnames(ts_features) <- names(calc_features(df_errors[[i]])$features)
+    #if (i %% 1000 == 0)
     print(i)
     if (length(df_errors[[i]]$ts_train) > length(df_errors[[i]]$ts_test) & var(df_errors[[i]]$ts_train) != 0 & length(df_errors[[i]]$ts_train) > 2*frequency(df_errors[[i]]$ts_train)) {
       ts_features[i, ] <- as.numeric(calc_features(df_errors[[i]])$features)
@@ -78,6 +79,11 @@ get_features_matrix <- function(df_errors) {
 }
 
 #SERIES_TYPE <- "quarterly"
-#df_errors <- readRDS(paste0(paste0("raw_labels_", SERIES_TYPE), ".rds"))
+#df_errors <- readRDS(paste0(paste0("val/raw_labels_", SERIES_TYPE), ".rds"))
 #ts_features <- get_features_matrix(df_errors)
-#saveRDS(ts_features, file=paste0(paste0("features_", SERIES_TYPE), ".rds"))
+#saveRDS(ts_features, file=paste0(paste0("val/features_", SERIES_TYPE), ".rds"))
+
+#SERIES_TYPE <- "yearly"
+#df_errors <- readRDS(paste0(paste0("val/raw_labels_", SERIES_TYPE), ".rds"))
+#ts_features <- get_features_matrix(df_errors)
+#saveRDS(ts_features, file=paste0(paste0("val/features_", SERIES_TYPE), ".rds"))
